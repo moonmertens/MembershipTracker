@@ -1,0 +1,6 @@
+# Ignore the local database
+*.db
+
+# Ignore compiled executables (Windows)
+*.exe
+*.dll
