@@ -1,0 +1,50 @@
+/* Don't want ugly underlining */
+a {
+text-decoration: none;
+}
+
+.container {
+  max-width: 350px;
+  margin: 0 auto; /* Centers the box */
+  background-color: white;
+  padding: 20px;
+  border: 1px solid #ccc;
+  text-align: center;
+}
+
+
+/* Inputs */
+input {
+  width: 100%; /* Full width */
+  padding: 8px;
+  margin: 10px 0;
+  box-sizing: border-box; /* Ensures padding doesn't break the width */
+  border: 1px solid #999;
+}
+
+/* Buttons (Generic Style) */
+button {
+  padding: 10px 15px;
+  cursor: pointer;
+  background-color: #e0e0e0;
+  border: 1px solid #999;
+  margin: 5px;
+}
+
+button:hover {
+  background-color: #d0d0d0;
+}
+
+/* Feedback Messages */
+.error-text { color: #dc3545; margin: 10px 0; }
+.success-text { color: #28a745; margin: 10px 0; }
+
+/* Cards */
+.card {
+  margin-top: 20px;
+  padding: 15px;
+  background-color: #f8f9fa;
+  border: 1px solid #e9ecef;
+  border-radius: 4px;
+  text-align: left;
+}
