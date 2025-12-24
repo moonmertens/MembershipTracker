@@ -17,6 +17,12 @@ function Home() {
           Update Member
         </button>
       </Link>
+
+      <Link to="/list">
+        <button>
+          List Members
+        </button>
+      </Link>
     </div>
   );
 }
