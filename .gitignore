@@ -4,3 +4,13 @@
 # Ignore compiled executables (Windows)
 *.exe
 *.dll
+
+# Dependencies
+node_modules/
+
+# Environment variables
+.env
+
+# Build outputs
+dist/
+backend/main
