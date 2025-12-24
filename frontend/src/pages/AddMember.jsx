@@ -4,11 +4,16 @@ import { useNavigate } from 'react-router-dom';
 function AddMember() {
   const [phone, setPhone] = useState('');
   const [name, setName] = useState('');
-  const [error, setError] = useState(''); 
+  const [visits, setVisits] = useState('');
+
+  const [success, setSuccess] = useState('');
+  const [error, setError] = useState('');
+
   const navigate = useNavigate(); 
 
   const handleSubmit = async () => {
-    setError(''); // Clear previous errors
+    setError(''); // Clear previous errors and successes
+    setSuccess('')
 
     try {
       const response = await fetch("http://localhost:8080/add-member", {
@@ -17,13 +22,12 @@ function AddMember() {
         body: JSON.stringify({
           phone_number: parseInt(phone),
           name: name,
-          visits: 0
+          visits: parseInt(visits)
         })
       });
 
       if (response.ok) {
-        // Success: Redirect immediately
-        navigate("/"); 
+        setSuccess("User added")
       } else {
         const data = await response.json();
         setError(data.error);
@@ -33,13 +37,21 @@ function AddMember() {
     }
   };
 
+  const handleClear = () => {
+    setPhone('');
+    setName('');
+    setVisits('');
+    setSuccess('');
+    setError('');
+  };
+
   return (
     <div className="container">
       <h2>Register New Member</h2>
       
       <input 
         type="number" 
-        placeholder="Phone Number (e.g. 81234567)" 
+        placeholder="Phone Number" 
         value={phone}
         onChange={(e) => setPhone(e.target.value)}
       />
@@ -51,14 +63,25 @@ function AddMember() {
         onChange={(e) => setName(e.target.value)}
       />
 
-      {/* Consistent Error Display */}
-      {error && <p className="error-text">{error}</p>}
+      <input 
+        type="number" 
+        placeholder="Visits" 
+        value={visits}
+        onChange={(e) => setVisits(e.target.value)}
+      />
 
-      <button onClick={handleSubmit}>Save Member</button>
+      {/* Feedback Messages */}
+      {error && <p className="error-text">{error}</p>}
+      {success && <p style={{color: 'green'}}>{success}</p>}
+
+      <button onClick={handleSubmit}>Add Member</button>
+
+      <button onClick={handleClear}>
+        Clear
+      </button>
       
-      <br /><br />
       <button onClick={() => navigate("/")}>
-        Back to Home
+        Home
       </button>
     </div>
   );
