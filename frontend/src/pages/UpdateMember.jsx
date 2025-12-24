@@ -23,7 +23,7 @@ function UpdateMember() {
     setSuccess('');
 
     try {
-      const response = await fetch(`http://localhost:8080/get-member?phone_number=${phone}`);
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/get-member?phone_number=${phone}`);
       
       if (response.ok) {
         const data = await response.json();
@@ -48,7 +48,7 @@ function UpdateMember() {
     }
 
     try {
-      const response = await fetch(`http://localhost:8080/delete-member?phone_number=${member.phone_number}`, {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/delete-member?phone_number=${member.phone_number}`, {
         method: 'DELETE',
       });
 
@@ -72,7 +72,7 @@ function UpdateMember() {
     setSuccess('');
 
     try {
-      const response = await fetch("http://localhost:8080/update-member", {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/update-member`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

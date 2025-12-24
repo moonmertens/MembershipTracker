@@ -16,7 +16,7 @@ function AddMember() {
     setSuccess('')
 
     try {
-      const response = await fetch("http://localhost:8080/add-member", {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/add-member`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

@@ -5,9 +5,10 @@ import (
     "fmt"
     "log"
     "net/http"
+    "os"
 
     "github.com/rs/cors"
-    _ "modernc.org/sqlite"
+    _ "github.com/lib/pq"
 )
 
 // Member struct is shared across files in package main
@@ -21,14 +22,8 @@ type Member struct {
 var db *sql.DB
 
 func main() {
-    var err error
-    db, err = sql.Open("sqlite", "./members.db")
-    if err != nil {
-        log.Fatal(err)
-    }
-    defer db.Close()
-
     initDB()
+    defer db.Close()
 
     mux := http.NewServeMux()
     mux.HandleFunc("/add-member", addMember)
@@ -44,20 +39,41 @@ func main() {
 
     handler := c.Handler(mux)
 
-    fmt.Println("Server is running on http://localhost:8080")
-    log.Fatal(http.ListenAndServe(":8080", handler))
+    port := os.Getenv("PORT")
+    if port == "" {
+        port = "8080"
+    }
+
+    fmt.Println("Server is running on port " + port)
+    http.ListenAndServe(":"+port, handler)
 }
 
 func initDB() {
-    sqlStmt := `
-    CREATE TABLE IF NOT EXISTS members (
-        phone_number INTEGER PRIMARY KEY, 
-        name TEXT,
-        visits INTEGER
-    );
-    `
-    _, err := db.Exec(sqlStmt)
+
+    var err error
+    
+    connStr := os.Getenv("DATABASE_URL")
+    if connStr == "" {
+        log.Fatal("DATABASE_URL environment variable is not set")
+    }
+
+    db, err = sql.Open("postgres", connStr)
     if err != nil {
-        log.Fatalf("Database creation failed: %q: %s\n", err, sqlStmt)
+        log.Fatal(err)
+    }
+
+    if err = db.Ping(); err != nil {
+        log.Fatal(err)
+    }
+
+    createTableSQL := `CREATE TABLE IF NOT EXISTS members (
+        phone_number INTEGER PRIMARY KEY,
+        name TEXT NOT NULL,
+        visits INTEGER DEFAULT 0
+    );`
+
+    _, err = db.Exec(createTableSQL)
+    if err != nil {
+        log.Fatal(err)
     }
 }

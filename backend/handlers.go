@@ -33,7 +33,7 @@ func addMember(w http.ResponseWriter, r *http.Request) {
         return
     }
 
-    insertSQL := `INSERT INTO members (phone_number, name, visits) VALUES (?, ?, ?)`
+    insertSQL := `INSERT INTO members (phone_number, name, visits) VALUES ($1, $2, $3)`
     _, err := db.Exec(insertSQL, m.PhoneNumber, m.Name, m.Visits)
     if err != nil {
         respondError(w, http.StatusInternalServerError, "Failed to add member (might already exist)")
@@ -62,7 +62,7 @@ func getMember(w http.ResponseWriter, r *http.Request) {
     }
 
     var m Member
-    query := `SELECT phone_number, name, visits FROM members WHERE phone_number = ?`
+    query := `SELECT phone_number, name, visits FROM members WHERE phone_number = $1`
     err = db.QueryRow(query, phoneNumber).Scan(&m.PhoneNumber, &m.Name, &m.Visits)
 
     if err == sql.ErrNoRows {
@@ -93,7 +93,7 @@ func updateMember(w http.ResponseWriter, r *http.Request) {
         return
     }
 
-    updateSQL := `UPDATE members SET name = ?, visits = ? WHERE phone_number = ?`
+    updateSQL := `UPDATE members SET name = $1, visits = $2 WHERE phone_number = $3`
     result, err := db.Exec(updateSQL, m.Name, m.Visits, m.PhoneNumber)
     if err != nil {
         respondError(w, http.StatusInternalServerError, "Database error")
@@ -127,7 +127,7 @@ func deleteMember(w http.ResponseWriter, r *http.Request) {
         return
     }
 
-    deleteSQL := `DELETE FROM members WHERE phone_number = ?`
+    deleteSQL := `DELETE FROM members WHERE phone_number = $1`
     _, err = db.Exec(deleteSQL, phoneNumber)
     if err != nil {
         respondError(w, http.StatusInternalServerError, "Database error")
