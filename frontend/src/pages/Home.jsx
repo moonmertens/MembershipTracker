@@ -23,6 +23,12 @@ function Home() {
           List Members
         </button>
       </Link>
+
+      <Link to="/whatsapp">
+        <button>
+          Connect to WhatsApp
+        </button>
+      </Link>
     </div>
   );
 }
