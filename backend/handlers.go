@@ -176,8 +176,7 @@ func deleteMember(w http.ResponseWriter, r *http.Request) {
 func getQRCode(w http.ResponseWriter, r *http.Request) {
     status := "disconnected"
     
-    // Check if waClient exists and is connected
-    if waClient != nil && waClient.IsConnected() {
+    if currentQR == "" && waClient != nil && waClient.IsConnected() {
         status = "connected"
     }
 
