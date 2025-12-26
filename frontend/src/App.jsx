@@ -3,7 +3,7 @@ import Home from './pages/Home';
 import AddMember from './pages/AddMember';
 import UpdateMember from './pages/UpdateMember';
 import ListMembers from './pages/ListMembers';
-import WhatsAppConnect from './pages/WhatsAppConnect';
+import WhatsAppConnect from './pages/WhatsAppConnect.jsx';
 
 import './App.css';
 
