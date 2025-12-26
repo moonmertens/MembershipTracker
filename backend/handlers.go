@@ -3,6 +3,7 @@ package main
 import (
 	"database/sql"
 	"encoding/json"
+	"fmt"
 	"net/http"
 	"strconv"
 )
@@ -39,6 +40,11 @@ func addMember(w http.ResponseWriter, r *http.Request) {
 		respondError(w, http.StatusInternalServerError, "Failed to add member (might already exist)")
 		return
 	}
+
+	msg := fmt.Sprintf("Name: %s\nVisits: %d", m.Name, m.Visits)
+	// Prepend 65 to 8-digit number
+	fullPhone := m.PhoneNumber + 6500000000
+	go SendWhatsApp(fullPhone, msg)
 
 	respondJSON(w, http.StatusCreated, map[string]string{"message": "Member added successfully"})
 }
@@ -106,8 +112,14 @@ func updateMember(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	msg := fmt.Sprintf("Name: %s\nVisits: %d", m.Name, m.Visits)
+	// Prepend 65 to 8-digit number
+	fullPhone := m.PhoneNumber + 6500000000
+	go SendWhatsApp(fullPhone, msg)
+
 	respondJSON(w, http.StatusOK, map[string]string{"message": "Member updated successfully"})
 }
+
 func getAllMembers(w http.ResponseWriter, r *http.Request) {
 	if r.Method != http.MethodGet {
 		respondError(w, http.StatusMethodNotAllowed, "Only GET method is allowed")
@@ -169,20 +181,34 @@ func deleteMember(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	msg := "You have been deleted from our members list"
+	// Prepend 65 to 8-digit number
+	fullPhone := phoneNumber + 6500000000
+	go SendWhatsApp(fullPhone, msg)
+
 	respondJSON(w, http.StatusOK, map[string]string{"message": "Member deleted successfully"})
 }
 
-// Function for frontend to access QR code
-func getQRCode(w http.ResponseWriter, r *http.Request) {
-    status := "disconnected"
-    
-    if currentQR == "" && waClient != nil && waClient.IsConnected() {
-        status = "connected"
-    }
+// Debugging
+// func sendTestMessage(w http.ResponseWriter, r *http.Request) {
+//     // 1. Get the phone number from the URL query (e.g., ?phone=1234567890)
+//     phoneStr := r.URL.Query().Get("phone")
+//     if phoneStr == "" {
+//         http.Error(w, "Missing 'phone' parameter", http.StatusBadRequest)
+//         return
+//     }
 
-    // Send the status and the QR string (if any)
-    respondJSON(w, http.StatusOK, map[string]string{
-        "status": status,
-        "qr":     currentQR,
-    })
-}
+//     // 2. Convert to integer
+//     phone, err := strconv.Atoi(phoneStr)
+//     if err != nil {
+//         http.Error(w, "Invalid phone number", http.StatusBadRequest)
+//         return
+//     }
+
+//     // 3. Send the message
+//     msg := "This is a test message from your Membership Tracker Backend! 🚀"
+//     SendWhatsApp(phone, msg)
+
+//     // 4. Respond to browser
+//     w.Write([]byte("Test message sent to " + phoneStr))
+// }
