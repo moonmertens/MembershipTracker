@@ -21,9 +21,8 @@ function WhatsAppConnect() {
       }
     };
 
-    // Check immediately, then every 2 seconds
     fetchQR();
-    const interval = setInterval(fetchQR, 2000);
+    const interval = setInterval(fetchQR, 1000);
 
     return () => clearInterval(interval);
   }, []);
