@@ -171,3 +171,19 @@ func deleteMember(w http.ResponseWriter, r *http.Request) {
 
 	respondJSON(w, http.StatusOK, map[string]string{"message": "Member deleted successfully"})
 }
+
+// Function for frontend to access QR code
+func getQRCode(w http.ResponseWriter, r *http.Request) {
+    status := "disconnected"
+    
+    // Check if waClient exists and is connected
+    if waClient != nil && waClient.IsConnected() {
+        status = "connected"
+    }
+
+    // Send the status and the QR string (if any)
+    respondJSON(w, http.StatusOK, map[string]string{
+        "status": status,
+        "qr":     currentQR,
+    })
+}

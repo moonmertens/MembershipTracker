@@ -31,6 +31,7 @@ func main() {
 	mux.HandleFunc("/update-member", updateMember)
 	mux.HandleFunc("/delete-member", deleteMember)
 	mux.HandleFunc("/get-all-members", getAllMembers)
+	mux.HandleFunc("/get-whatsapp-qr", getQRCode)
 
 	c := cors.New(cors.Options{
 		AllowedOrigins: []string{"*"}, // Allow all origins (for now)
