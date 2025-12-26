@@ -25,6 +25,8 @@ func main() {
 	initDB()
 	defer db.Close()
 
+	go InitWhatsApp() 
+
 	mux := http.NewServeMux()
 	mux.HandleFunc("/add-member", addMember)
 	mux.HandleFunc("/get-member", getMember)
