@@ -25,6 +25,12 @@ function Home() {
           </button>
         </Link>
 
+        <Link to="/broadcast">
+          <button>
+            Broadcast Message
+          </button>
+        </Link>
+
         <Link to="/whatsapp">
           <button>
             Connect to WhatsApp

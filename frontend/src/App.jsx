@@ -4,6 +4,7 @@ import AddMember from './pages/AddMember';
 import UpdateMember from './pages/UpdateMember';
 import ListMembers from './pages/ListMembers';
 import WhatsAppConnect from './pages/WhatsAppConnect';
+import Broadcast from './pages/Broadcast';
 
 import './App.css';
 
@@ -16,6 +17,7 @@ function App() {
         <Route path="/update" element={<UpdateMember />} />
         <Route path="/list" element={<ListMembers />} />
         <Route path="/whatsapp" element={<WhatsAppConnect />} />
+        <Route path="/broadcast" element={<Broadcast />} />
       </Routes>
     </BrowserRouter>
   );
