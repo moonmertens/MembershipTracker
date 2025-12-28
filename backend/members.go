@@ -44,7 +44,7 @@ func addMember(w http.ResponseWriter, r *http.Request) {
 	msg := fmt.Sprintf("Name: %s\nVisits: %d", m.Name, m.Visits)
 	// Prepend 65 to 8-digit number
 	fullPhone := m.PhoneNumber + 6500000000
-	go SendWhatsApp(fullPhone, msg)
+	go SendWhatsApp(fullPhone, msg, nil)
 
 	respondJSON(w, http.StatusCreated, map[string]string{"message": "Member added successfully"})
 }
@@ -115,7 +115,7 @@ func updateMember(w http.ResponseWriter, r *http.Request) {
 	msg := fmt.Sprintf("Name: %s\nVisits: %d", m.Name, m.Visits)
 	// Prepend 65 to 8-digit number
 	fullPhone := m.PhoneNumber + 6500000000
-	go SendWhatsApp(fullPhone, msg)
+	go SendWhatsApp(fullPhone, msg, nil)
 
 	respondJSON(w, http.StatusOK, map[string]string{"message": "Member updated successfully"})
 }
@@ -184,7 +184,7 @@ func deleteMember(w http.ResponseWriter, r *http.Request) {
 	msg := "You have been deleted from our members list"
 	// Prepend 65 to 8-digit number
 	fullPhone := phoneNumber + 6500000000
-	go SendWhatsApp(fullPhone, msg)
+	go SendWhatsApp(fullPhone, msg, nil)
 
 	respondJSON(w, http.StatusOK, map[string]string{"message": "Member deleted successfully"})
 }
