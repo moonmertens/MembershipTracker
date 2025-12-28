@@ -18,6 +18,12 @@ function Broadcast() {
     e.preventDefault();
     setSuccess('');
     setError('');
+
+    if (!message && !image) {
+      setError("Please enter a message or select an image.");
+      return;
+    }
+
     setLoading(true);
 
     const formData = new FormData();

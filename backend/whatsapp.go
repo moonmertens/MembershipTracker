@@ -109,9 +109,14 @@ func SendWhatsApp(phone int, text string, imgData []byte) {
 			return
 		}
 
+		var caption *string
+		if text != "" {
+			caption = &text
+		}
+
 		msg = &waE2E.Message{
 			ImageMessage: &waE2E.ImageMessage{
-				Caption:       &text,
+				Caption:       caption,
 				URL:           &resp.URL,
 				DirectPath:    &resp.DirectPath,
 				MediaKey:      resp.MediaKey,
