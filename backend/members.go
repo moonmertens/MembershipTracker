@@ -41,7 +41,7 @@ func addMember(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	msg := fmt.Sprintf("Name: %s\nVisits: %d", m.Name, m.Visits)
+	msg := fmt.Sprintf("Hi %s! Thank you for joining our membership program. You can look forward to special promotions just for you! :)", m.Name)
 	// Prepend 65 to 8-digit number
 	fullPhone := m.PhoneNumber + 6500000000
 	go SendWhatsApp(fullPhone, msg, nil)
